@@ -1,0 +1,10 @@
+*~
+*.bcf
+*.blg
+*.bbl
+*.run.xml
+*.tex
+ltxpng
+figure
+par-*
+Rt*

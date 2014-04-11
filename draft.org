@@ -1,0 +1,351 @@
+#+title: Drafting research papers with Emacs orgmode
+#+author: Philip Yang
+#+email: phi@cs.umd.edu
+#+OPTIONS: texht:t
+#+OPTIONS: toc:nil _:nil ^:nil tags:t e:t tasks:nil d:t
+#+EXPORT_EXCLUDE_TAGS: noexport
+
+#+LATEX_CLASS: article
+# #+LaTeX_CLASS_OPTIONS: [article,letterpaper,11pt,listings-bw,microtype]
+#+LaTeX_CLASS_OPTIONS: [palatino,11pt,letterpaper]
+#+LATEX_HEADER: \usepackage{mathtools}
+#+LaTeX_HEADER: \usepackage[T1]{fontenc} 
+#+LaTeX_HEADER: \usepackage[scaled]{beraserif}
+#+LaTeX_HEADER: \usepackage[scaled]{berasans} 
+#+LaTeX_HEADER: \usepackage[scaled]{beramono}
+
+# All the bibliography settings
+#+LaTeX_HEADER: \usepackage[backend=biber]{biblatex}
+#+LaTeX_HEADER: \addbibresource{draft_references.bib}
+# \bibliography{draft_references}
+#+LINK: bib rtcite:draft_references.bib::%s
+#+LINK: note rtcite:draft.org::#%s
+
+# Exporting with LaTeX, custom command will be shown 
+# in the preview command Ctrl(c-x-l) 
+#+LATEX_HEADER: \newcommand{\norm}[1]{\left\| #1 \right\|}
+#+LaTeX_HEADER: \newcommand{\expected}[2]{\mathbb{E}_{#1}\left[ #2 \right]}
+#+LaTeX_HEADER: \newcommand{\integral}[2]{\int_{\Omega} \! #2 \, \mathrm{d}#1}
+#+LaTeX_HEADER: \newcommand{\var}[1]{\mathrm{Var}\left[ #1 \right]}
+#+LaTeX_HEADER: \newcommand{\covar}[1]{\mathrm{Cov}\left[ #1 \right]}
+#+LaTeX_HEADER: \newcommand{\abs}[1]{\left| #1 \right|}
+
+
+# Tips:
+#   C-c C-x p to add the CUSTOM_ID tag
+#   C-c C-x C-l to preview the rendered latex image, C-c C-c to remove image display
+#   C-c C-x C-v	org-toggle-inline-images
+#   C-c C-x C-i/o clock in and out, for timing of a task
+#   C-c C-x C-c/q turn on/off column view (http://orgmode.org/worg/org-tutorials/org-column-view-tutorial.html)
+
+# Online references:
+# http://orgmode.org/manual/LaTeX-specific-attributes.html#LaTeX-specific-attributes
+
+#+BEGIN_ABSTRACT
+We demonstrate how to write a bibliography-enabled draft. 
+This is done with the help of /biblatex/.
+#+END_ABSTRACT
+
+* A major section  
+  
+
+  - clicking on a =note:some_paper= link in an org-mode document will jump
+    to the corresponding bibliographic note about a particular paper.
+    
+  - clicking on a =bib:some_paper= link in an org-mode document will jump to
+    the corresponding bibliographic reference in the bibtex file. 
+    
+  - exporting an org document containing either of the above links to
+    LaTeX will produce correct references cite{abibref} LaTeX code
+    (see the results here : draft.pdf). 
+    
+    So here is the solution. We process the link structure, but we
+    don't really rely on it. 
+    
+  We’ll also add into section  all the notes relating to these articles. 
+  These notes will be identified by =CUSTOM_ID= properties which will contain the bibliographic 
+  reference of the papers.
+  
+  Here is a citation of [[note:Vishwanathan_2010_GK][Vishwanathan et al.]]. Clicking the link
+  in orgmode will give you our note on that paper, but the html / latex
+  output will be just the citation.   
+  
+  [[bib:hausser2009entropy][Hausser et al.]] provides a way to estimate entropy for discrete distributions.
+  
+  #  Another graph theoretical approach is detailed by [[bib:Hoory_BAMS2006_EGTASV][Hoory et al.]].
+  [[bib:Paninski_2008_UKEE][Paninski et al.]] provides ways to generate stuffs.
+  
+  # See also [[note:Hoory_BAMS2006_EGTASV][our summary and comments]].  
+  
+  To simply add a citation here, we could use the /bibtex/ syntax.
+  We also want to thank Crutchfield /et al./ \cite{Crutchfield_1995_TEOEC}
+  
+  # If we are only going to export current section
+  # \printbibliography
+  
+* A section with formulae
+  We can also define mutual information of multiple variables. 
+  #+begin_latex
+  \begin{equation*} \label{mi_decomp}
+  \begin{split}
+  I(X;Y;Z) &= \expected{X,Y,Z}{\log(\frac{p_M(X,Y,Z)}{p_M(X) p_M(Y) p_M(Z)})} \\
+  &= H(X) + H(Y) + H(Z) - H(X,Y,Z) \\
+  &= H(X) + H(Y) - H(X,Y) + H(X,Y) + H(Z) - H(X,Y,Z) \\
+  &= I(X; Y) + I(X, Y; Z).
+  \end{split}
+  \end{equation*}
+  #+end_latex
+  
+
+  For a normal distribution, let $C = \frac{\log(2\pi) + 1}{2}$
+  #+begin_latex
+  \begin{equation*}
+  \begin{split}
+  I(X, Y) &= H(X) + H(Y) - H(X,Y) \\
+  &= C + \log(\abs{\Sigma_X})/2 + C + \log(\abs{\Sigma_Y})/2 - 2C - \log(\abs{\Sigma_{X,Y}})/2 \\
+  &= - \frac{1}{2}\log(\frac{\abs{\Sigma_{X,Y}}}{\abs{\Sigma_X \Sigma_Y}}) \\
+  &= - \frac{1}{2}\log(1 - \rho_{X,Y}^2).
+  \end{split}
+  \end{equation*}
+  #+end_latex
+  This shows that mutual information for multivariate normal distribution is a monotone transform
+  of the correlation. 
+    
+* A section with figures and plots
+  If the export function fails, it is likely to be caused by this section. 
+  Type =C-c ;= here to comment this section, which prevent it from being exported.
+
+  Tables are an inherent feature of =orgmode=. 
+  |-----------+-----------+---------|
+  | Sede      | Max cites | H-index |
+  |-----------+-----------+---------|
+  | Chile     |    257.72 |   21.39 |
+  | Leeds     |    165.77 |   19.68 |
+  | Sao Paolo |     71.00 |   11.50 |
+  | Stockholm |    134.19 |   14.33 |
+  | Morelia   |    257.56 |   17.67 |
+  
+  Sometimes we would like to run a quick simulation in =R=
+  to illustrate certain principles. 
+  #+BEGIN_SRC R :results output org :exports all
+    library(ascii)
+    a <- runif(100)
+    c <- "Quantiles of 100 random numbers"
+    b <- ascii(quantile(a),header=T,include.colnames=T,caption=c)
+    print(b,type="org")
+    rm(a,b,c)
+  #+END_SRC
+  
+  #+RESULTS:
+  #+CAPTION: Quantiles of 100 random numbers
+  | 0%   | 25%  | 50%  | 75%  | 100% |
+  |------+------+------+------+------|
+  | 0.00 | 0.21 | 0.45 | 0.69 | 1.00 |
+  
+  #+attr_latex: width=8cm placement=[htbp]
+  #+begin_src R :results output graphics :exports all :file figure/fig_plot.pdf
+    library(ggplot2)
+    a <- rnorm(100)
+    b <- 2*a + rnorm(100)
+    df <- data.frame(a, b)
+    
+    # Scatter plot with regression line
+    p <- ggplot(df, aes(x = a, y = b))
+    p + geom_smooth(method = "lm", se=TRUE, color="red", formula = y ~ x) +    
+        geom_point()    
+  #+end_src                                     
+  
+  #+RESULTS:
+  [[file:figure/fig_plot.pdf]]
+  
+* A list of stuffs   
+- Kernel :: $k: \mathcal{X} \times \mathcal{X} \rightarrow \mathbb{F}$ where
+	    $\mathbb{F}$ is a field, usually either the real field $\mathbb{R}$
+            or the complex field $\mathbb{C}$. 
+	    
+	    Kernel is used to define "similarity" between elements of
+            $\mathcal{X}$, thus we expect "similar" elements to have
+            higher value. 
+	    There are some properties that k must satisfy: 
+             * $k(x, y) = \overline{k(y, x)}$
+             * $k(x, x) \geq 0$ 	   	    
+
+- Kernel density estimate :: the first step to data analysis is     
+     usally done through looking at the histogram. Yet the bin size
+     we choose might affect the result. For many cases (especially
+     when our data is real valued), we have no idea to determine it
+     a priori. 
+
+- Hilbert space :: complete space with an inner product.
+		   the decisive deature of Hilbert space is the inner
+                   product. In most cases, we use Hilbert space to
+                   study functions, to be specific, square integrable
+                   functions f with $\int_{-\infty}^{\infty} f\bar{f}
+                   < \infty$.
+
+- Complete space :: a metric space where every Cauchy sequence converges in
+                    it. The space of rational numbers is not
+                    complete, since we can construct a Cauchy
+                    sequence that converges to $\sqrt{2} \notin \mathbb{Q}$.
+
+- Cauchy sequence :: $\forall \delta > 0, \exists N, \forall n, m > N, \| a_n - a_m \| < \delta$.
+     as for the case of a complete sequence, every Cauchy sequence
+     converges, and the value it converges to is also in that
+     space. As for example, $\mathbb{Q}$ is not a complete space since
+     we can construct a Cauchy sequence which converges to some irrational number.
+     In fact, this is pretty much how we construct the entire real line 
+     with Dedekind cut. 
+
+- Inner product :: This definition is broader and more general than dot product and
+                   it's the right term to use whenever you are not
+                   sure.
+		   An inner product 
+		   $\langle \cdot, \cdot \rangle: \mathcal{X} \times
+                   \mathcal{X} \rightarrow
+                   \mathbb{F}$ is a linear structure with the
+                   following properties.
+		     * $\langle x, y \rangle = \overline{ \langle y, x
+                       \rangle }$
+		     * $\langle ax, y \rangle = a \langle x, y
+                       \rangle$
+		     * $\langle x+y, z \rangle = \langle x, z
+                       \rangle + \langle y, z \rangle$
+		     * $\langle x, x \rangle \geq 0$ and the
+                       equaltity holds iff $x = 0$
+
+		   These properties entails the famous
+                   Cauchy-Schwartz inequality
+		   $$ \langle x, y\rangle^2 \leq \langle x, x\rangle
+                   \langle y, y\rangle.$$
+		   The inner product defined by the Hilbert space
+                   also induces a norm, $\left\| x
+                   \right\|_{\mathcal{H}} = \langle x,
+                   x\rangle^{1/2}$. 		  
+
+- Metric :: in contrast to kernel, a metric 
+            $d: \mathcal{X}\times \mathcal{X} \rightarrow \mathbb{R}$ 
+            is used to characterize "distance" between two elements
+            in $\mathcal{X}$. 
+	    properties include: 
+             * $d(x, y) \geq 0$, where equality holds iff $x = y$
+	     * $d(x, y) = d(y, x)$
+	     * $d(x, y) \leq d(x, z) + d(y, z)$
+	       
+	    We can define $d(x, y) = \left\| x - y
+            \right\|_{\mathcal{H}}$ and verify that it is truly a metric.
+	    
+
+- Positive definite kernel :: with this property the kernel distance
+     is a metric ... orz; any p.d. kernels induces a Hilbert space 
+
+- Kernel distance :: when we compute the distance of two sets
+     $\mathcal{P}, \mathcal{Q}$ given
+     only the definition of similarity between $p \in \mathcal{P}$
+     and $q \in \mathcal{Q}$ via kernel $k(p, q)$,      
+
+- Reproducing kernel Hilbert space (RKHS) :: a Hilbert space whose inner
+     product "reproduces" the kernel. Almost all the properties of a
+     Hilbert space is captured in its inner product (this could be
+     seen from the isomorphism theorem). To be specific, given a
+     kernel k, we want $\langle k(\cdot, x), k(\cdot, y) \rangle = k(x, y)$
+
+- Bochner's theorem :: It states that for any
+     shift-invariant positive definite kernel k(z), its Fourier transform
+     p(w) is a measure. We know that modern axiomatic probability theory
+     is based upon measures. If we properly scale p(w) so that p(E) =
+     1 where E is the ground set, then p(w) is a probability (density function). 
+     In our case we wanted to find a finite feature space whose inner
+     product $\langle \phi(x), \phi(y) \rangle$ approximates k(x, y). This is the
+     same idea behind RKHS. Lucky for us, $k(x,y) = \int p(w)
+     \exp(iw'(x-y)) dw$, which then can be seen as an expectation
+     $\mathbb{E}_w[\exp(iw'(x-y))]$. Thus sampling (or Monte Carlo
+     algorithm) will suffice. This estimate should be more accurate
+     in estimating kernel distance thanks to the concentration of measure.
+     Chernoff-Hoeffding bound is typically used to prove it. 
+     If the kernel is epkov like, we know how to sample from it. Thus
+     the connection via Fourier transform could go both ways. 
+
+- Mercer's theorem :: the symmetric kernels has an eigen
+     expansion where the eigenfunctions are in the sense of
+     Hilbert-Schmidt integral operator $\mathcal{T}_k$. 
+     $$ (\mathcal{T}_k f)(x) = \int_{\Omega} k(x, z)f(z)\rho(z)dz
+     $$
+     where our kernel could be rewritten as
+     $$k(x, y) = \sum_{n=0}^{\infty}\lambda_n\psi_n(x)\psi_n(y).$$ 
+     These eigen functions are orthonormal. 
+     So every function f in our space $\mathcal{H}$ could be
+     rewritten as 
+     $$f(\cdot) = \sum_{n=0}^{\infty} \alpha_n \psi_n(\cdot).$$
+     Notice that for $k(\cdot, x)$, $\alpha_n = \lambda_n \psi_n(x)$. 
+     If we define the inner product in a dot product as
+     $$\langle f, g \rangle = \sum_{n=0}^{\infty} \frac{a_n
+     b_n}{\lambda_n},$$
+     then the "reproducing" property of the kernels still holds. This
+     is definitely a convenient, though different from our approach,
+     to look for a finite approximation in Euclidean space (there is
+     only one Euclidean space for a given dimension). 
+
+     For more details, on how these eigenfunctions look like, check
+     section 6 of /Positive Definite Kernels: Past, Present and
+     Future/. This could provide an alternative way to view the finite
+     dimensional approximation. 
+
+- Embedding :: given metric space $(X, d)$ and $(X, d')$ a map $f: X \rightarrow X'$ is 
+		 called an embedding. An embedding is called distance-preserving or 
+		 /isometric/ if for all $x, y \in X$, $d(x, y) = d'(f(x), f(y))$.
+		 We call a finite metric $(X, d)$ an $l_p$-metric if there exists
+		 an embedding from $X$ into $\mathbb{R}^k$ for some $k$ such that
+		 $\left\| f(i) - f(j)\right\|_p = d(x,y)$. 
+
+- Distortion :: $\left\| f \right\|_{dist}$ = $\max\frac{d(x,y)}{d'(f(x), f(y))} \
+		  \max\frac{d'(f(z), f(w))}{d(z, w)}$. This measure is invariant under
+		  multiplicative factor of the corresponding metrics. The first term is called
+		  /contraction/ and the second is called /expansion/. Equivalently, 
+		  distortion is the smallest value $\alpha \geq 1$ such that
+		  $$ \forall x,y\ rd(x, y) \leq d'(f(x), f(y)) \leq \alpha r d(x,y). $$
+		  Here $r$ is the aforementioned scaling factor.
+  		      
+		
+* References with notes
+** Graph kernels
+   :PROPERTIES:
+   :TITLE:    Graph kernels
+   :CUSTOM_ID: Vishwanathan_2010_GK
+   :AUTHOR:   SVN Vishwanathan,  NN Schraudolph,
+   :JOURNAL:  J. Mach. Learn. Res.
+   :REFCOUNT: 128
+   :URL:      http://dl.acm.org/citation.cfm?id=1859891
+   :YEAR:     2010
+   :END:
+   <2014-02-12 Wed> (from HSIC paper's reference)
+   
+   The series regarding 'exotic' kernels. 
+   We will be looking at how the kernel machinery could be used in more general scenarios. 
+   
+   The [[http://www.stat.purdue.edu/~vishy/][work]] of the first author is worth going through. 
+   At any rate, this is a significant reference.
+   
+** Expander graphs and their applications
+   :PROPERTIES:
+   :TITLE:    Expander graphs and their applications
+   :BTYPE:    article
+   :CUSTOM_ID: Hoory_BAMS2006_EGTASV
+   :AUTHOR:   Hoory, Shlomo and Linial, Nathan and Wigderson, Avi
+   :CITEULIKE-ARTICLE-ID: 1540252
+   :CITEULIKE-LINKOUT-0: http://www.ams.org/bull/2006-43-04/S0273-0979-06-01126-8/home.html
+   :DATE-ADDED: 2012-11-21 19:12:21 +0000
+   :DATE-MODIFIED: 2012-11-21 19:12:50 +0000
+   :JOURNAL:  Bull. Amer. Math. Soc.
+   :KEYWORDS: algorithms, graph
+   :PAGES:    439--561
+   :POSTED-AT: 2007-08-07 13:02:09
+   :YEAR:     2006
+   :END:
+   for the inspiration. 
+   
+   The basics of expander graphs and their applications in both
+   computer science and mathematics.      
+
+* References
+# This line should be placed where we want to show the references
+\printbibliography[heading=none]

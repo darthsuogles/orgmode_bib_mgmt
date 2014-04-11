@@ -1,0 +1,394 @@
+#+TITLE:     Basics of Emacs-Org
+#+AUTHOR:    Philip Yang
+#+EMAIL:     phi@cs.umd.edu
+#+DATE:      2012-06-21 Thu
+#+DESCRIPTION:
+#+KEYWORDS:
+#+LANGUAGE:  en
+#+OPTIONS:   H:3 num:t toc:t \n:nil @:t ::t |:t ^:t -:t f:t *:t <:t
+#+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
+#+INFOJS_OPT: view:nil toc:nil ltoc:t mouse:underline buttons:0 path:http://orgmode.org/org-info.js
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+LINK_UP:   
+#+LINK_HOME: 
+#+XSLT:
+#+LaTeX_CLASS: article
+#+LaTeX_CLASS_OPTIONS: [a4paper]
+#+LaTeX_HEADER: \usepackage{amsmath}
+
+#+MATHJAX: align:"left" mathml:t path:"http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
+
+
+* Movie
+** Lord of the Rings						      :movie:
+   My favorite scenes are (in this order)
+   1. The attack of the Rohirrim 
+   2. Eowyn's fight with the witch king
+      + this was already my favorite scene in the book
+      + I really like Liv Taylor.
+   Important actors in the movie are:
+   - Elijah Wood :: He plays Frodo
+		    from under the hill
+   - Sean Austin :: He plays Sam, Frodo's friend
+		    
+		    
+
+* TODO Orgranize house party [50%] 				       :life:
+  DEADLINE: <2012-06-22 Fri> (use C-c C-d for DEADLINE)
+  - [-] call people [25%]
+    - [ ] Peter
+    - [X] Sarah 
+    - [ ] Anne Jorstad
+    - [ ] Eva Zhao
+  - [X] order food (use C-c C-c to toggle)
+  - [ ] order beer / stout, preferably Guinness
+  - [X] think about what music to play
+
+** a headline
+   Still outside the drawer
+   :drawer_a:
+   This is inside the drawer
+   :end:
+   After the drawer
+
+
+* LaTeX and HTML    
+
+  Certain LaTeX code could be inserted and will be converted to image once exported to html. $a = -\sqrt{2}$
+  
+  \begin{equation}
+  x = \sqrt{b}
+  \end{equation}
+
+  # http://en.wikibooks.org/wiki/LaTeX/Theorems
+    #+begin_latex 
+      \newtheorem{cbs}{Theorem}[section]
+      \begin{cbs}
+        Let $u, v \in \mathbb{R}^n$. 
+        $$ \| u + v \| \leq \|u\| + \|v\|. $$
+      \end{cbs}
+    #+end_latex
+
+
+  Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh Going beyond symbols and sub- and superscripts, a full formula language is needed. Org mode can contain LaTeX math fragments, and it supports ways to process these for several export backends. When exporting to LaTeX, the code is obviously left as it is. When exporting to HTML, Org invokes the MathJax library (see Math formatting in HTML export) to process and display the math1. Finally, it can also process the mathematical expressions into images2 that can be displayed in a browser or in DocBook documents.
+  #+ATTR_HTML: style="float:left;margin:0px 0px 20px 20px;"
+  #+ATTR_LaTeX: width=0.38\textwidth wrap placement={r}{0.4\textwidth}
+  [[./org-mode-unicorn.png]]
+  euismod  tincidunt ut laoreet dolore magna aliquam erat volutpat. Going beyond symbols and sub- and superscripts, a full formula language is needed. Org mode can contain LaTeX math fragments, and it supports ways to process these for several export backends. When exporting to LaTeX, the code is obviously left as it is. When exporting to HTML, Org invokes the MathJax library (see Math formatting in HTML export) to process and display the math1. Finally, it can also process the mathematical expressions into images2 that can be displayed in a browser or in DocBook documents.
+
+  #+BEGIN: image :file "./org-mode-unicorn.png"
+  #+END:
+
+  #+HTML: <b>literal HTML code</b> for export
+  #+BEGIN_HTML
+  </br> All lines in between are html code
+  #+END_HTML
+  
+  You can make words *bold*, /italic/, underlined , =code= and ~verbatim~, and, if you must, '+strike-through+'. Text in the code and verbatim string is not processed for
+
+  #+BEGIN_VERSE
+  Great clouds overhead
+  Tiny black birds rise and fall
+  Snow covers Emacs
+
+       -- AlexSchroeder
+  #+END_VERSE
+
+* Le temps
+  - *C-c .* :: Prompt for a date and insert a corresponding timestamp. When the cursor is at an existing timestamp in the buffer, the command is used to modify this timestamp instead of inserting a new one. When this command is used twice in succession, a time range is inserted. With a prefix, also add the current time[2012-06-22 Fri].
+	      
+* Le tableaux
+  Org comes with a fast and intuitive table editor. Spreadsheet-like calculations are supported in connection with the Emacs ‘calc’ package (see the Emacs Calculator manual for more information about the Emacs calculator).
+
+  Org makes it easy to format tables in plain ASCII. Any line with '|' as the first non- whitespace character is considered part of a table. '|' is also the column separator. A table might look like this:
+
+  | name  | Phone | Age |
+  |-------+-------+-----|
+  | Peter |  1234 |  21 |
+  | Anne  |  2333 |  32 |
+  
+* Plot
+  Use gnuplot to plot figures. Requires both gnuplot and emacs
+  gnuplot-mode. 
+  #+plot: title:"Citas" ind:1 deps:(3) type:2d with:histograms set:"yrange [0:]"
+     | Sede      | Max cites | H-index |
+     |-----------+-----------+---------|
+     | Chile     |    257.72 |   21.39 |
+     | Leeds     |    165.77 |   19.68 |
+     | Sao Paolo |     71.00 |   11.50 |
+     | Stockholm |    134.19 |   14.33 |
+     | Morelia   |    257.56 |   17.67 |
+  
+
+* Source Code
+  Source code could be enclosed using the following block. To edit source code in a buffer supporting the corresponding language, use =C-c\p=.
+  #+begin_src emacs-lisp
+    (defun org-xor (a b)
+        "Exclusive or."
+        (if a (not b) b))
+  #+end_src
+
+  #+RESULTS:
+  : org-xor
+
+  #+begin_src ditaa :file blue.png :cmdline -r
+  +---------+
+  | cBLU    |
+  |         |
+  |    +----+
+  |    |cPNK|
+  |    |    |
+  +----+----+
+  #+end_src
+  
+  #+RESULTS:
+  [[file:blue.png]]
+      
+  #+begin_src C
+    int vec_mul(float* v1, float* v2, int n)
+    {
+      for (; n >= 0; --n)
+        *v1++ *= *v2++;
+    }
+  #+end_src
+
+  #+begin_src dot :file some_filename.svg :cmdline -Kdot -Tsvg
+    digraph G {
+      size="8,6"
+      ratio=expand
+      edge [dir=both]
+      plcnet [shape=box, label="PLC Network"]
+      subgraph cluster_wrapline {
+        label="Wrapline Control System"
+        color=purple
+        subgraph {
+        rank=same
+        exec
+        sharedmem [style=filled, fillcolor=lightgrey, shape=box]
+        }
+        edge[style=dotted, dir=none]
+        exec -> opserver
+        exec -> db
+        plc -> exec
+        edge [style=line, dir=both]
+        exec -> sharedmem
+        sharedmem -> db
+        plc -> sharedmem
+        sharedmem -> opserver
+      }
+      plcnet -> plc [constraint=false]
+      millwide [shape=box, label="Millwide System"]
+      db -> millwide
+    
+      subgraph cluster_opclients {
+        color=blue
+        label="Operator Clients"
+        rankdir=LR
+        labelloc=b
+        node[label=client]
+        opserver -> client1
+        opserver -> client2
+        opserver -> client3
+      }
+    }
+  #+end_src
+  
+  #+results:
+  [[file:some_filename.svg]]
+
+  #+begin_src R :results output org :exports results
+    library(ascii)
+    options(asciiType="org")
+    ascii(summary(table(1:7, 1:7)))    
+  #+end_src
+
+  #+results:
+  #+BEGIN_ORG
+#+END_ORG
+
+# use :exports [results|all]
+  Here is an example using R script and output to org table.
+  However due to the fact that comment block must start from the first
+  column (with fortran origin I guess), the subsequent #+BEGIN_ORG
+  comment will be rendered as of <2012-07-26 Thu>. 
+  #+BEGIN_SRC R :results output org :exports all
+    library(ascii)
+    a <- runif(100)
+    c <- "Quantiles of 100 random numbers"
+    b <- ascii(quantile(a),header=T,include.colnames=T,caption=c)
+    print(b,type="org")
+    rm(a,b,c)
+  #+END_SRC
+
+  #+RESULTS:
+  #+BEGIN_ORG
+  #+CAPTION: Quantiles of 100 random numbers
+  | 0%   | 25%  | 50%  | 75%  | 100% |
+  |------+------+------+------+------|
+  | 0.01 | 0.27 | 0.52 | 0.72 | 0.99 |
+  #+END_ORG
+  
+  #+begin_src R :results output latex :exports results
+    library(xtable)
+    x <- rnorm(100)
+    y <- x + rnorm(100)
+    xtable(summary(lm(y ~ x)))
+  #+end_src
+
+  #+RESULTS:
+  #+BEGIN_LaTeX
+  #+END_LaTeX
+
+  It seems though /.pdf/ is supported in the list, it won't be
+  included in the html output file. As an work-around, SVG file is
+  used instead. 
+  #+attr_latex: width=8cm placement=[htbp]
+  #+begin_src R :results output graphics :exports all :file fig_plot.svg   
+    library(ggplot2)
+    a <- rnorm(100)
+    b <- 2*a + rnorm(100)
+    d <- data.frame(a, b)
+    ggplot(d, aes(a, b)) + geom_point()    
+  #+end_src                                     
+
+  #+RESULTS:
+  [[file:fig_plot.svg]]
+
+
+
+* Capture (org-remember enhanced)
+http://orgmode.org/manual/Capture.html
+
+Capturing new items (inspired by John Wiegley's remember
+package). Capture lets you quickly store notes with little
+interruption of your workflow. The basic process of capturing is very
+similar to remember, but Org does enhance it with tempaltes and more.
+- *M-x org-capture-import-remember-templates <RET>* :: 
+     customize the new variable with this command, check the result,
+     and save the customization. 
+
+
+** Setting up capture
+   The following customization sets a default target file for notes,
+   and defines a global key [fn:gk] for capturing new material.
+   #+begin_src el     
+     (setq org-default-notes-file (concat org-directory "/notes.org"))
+     (define-key global-map "\C-cc" 'org-capture)
+   #+end_src
+[fn:gk] Please select your own key, *C-c c* is only a suggestion. 
+
+   
+   - *C-c c* :: (org-capture) \\
+		Call the command org-capture. Note that this
+                keybinding is global and not active by default - you
+                need to install it. If you havetemplates defined, see
+                [[capture tempates]], it will offer these tempaltes for
+                selection or use a new Org outline node as the
+                default tempalte. It will insert the template into
+                the target file and switch to an indirect buffer
+                narrowed to this new node. You may then insert the
+                information you want.
+		
+   - *C-c C-c* :: (org-capture-finalized) \\
+		  Once you finished recording the information into
+                  the capture buffer, this command will proceed to
+                  save your work in it and return control to your
+                  current working buffer. WHen called with a prefix
+                  arg, finalize and then jump to the captured item.
+
+   - *C-c C-w* :: (org-capture-refile) \\
+		  Finalize the capture process by [[http://orgmode.org/manual/Refiling-notes.html#Refiling-notes][refilling]] the note
+                  to a different place. Please realize that this is a
+                  normal refiling command that will be executed - so
+                  the cursor position at the moment you run this
+                  command is important. If you have inserted a tree
+                  with a parent and children, first move the cursor
+                  back to the parent. Any prefix argument given to
+                  this command will be passed on to the /org-refile/
+                  command. 
+
+   - *C-c C-k* :: (org-capture-kill) \\
+		  Abort the capture process and return to the
+                  previous state. 
+
+  You can also call /org-capture/ in a special way from the agenda,
+  using /k c/ key combination. With this aceess, any timestamps
+  inserted by the selected capture template will default to the curso
+  date in the agenda, rather than to the current date. 
+
+  To find the locations of the last stored capture, use /org-capture/
+  with prefix commands: 
+  
+  - *C-u C-c c* :: Visit the target location of a capture
+                   tempalte. You get to select the tempalte in the
+                   usual way. 
+		   
+  - *C-u C-u C-c c* :: Visit the last stored capture item in its
+       buffer. 
+		   
+  You can also jump to the bookmark /org-capture-last-stored/, which
+  will automatically be created unless you set /org-capture-bookmark/
+  to /nil/. 
+  
+  To insert the capture at point in an Org buffer, call /org-capture/
+  with /C-0/ prefix argument. 
+
+  
+* Refiling notes
+  
+  When reviewing the captured data, you may want to refile some of
+  the entries into a different list, for example into a
+  project. Cutting, finding the right location, and then pasting the
+  note is cubersome. To simplify this process, you can use the
+  following special command: 
+  
+  - *C-c C-w* :: (org-refile) \\
+		 Refile the entry or region at point. This command
+                 offeres possible locations for refiling the entry
+                 and lets you select one with completion. The item (or
+                 all items in the region) is filed below the target
+                 heading as a subitem. Depending on
+                 /org-reverse-note-order/, it will be either the
+                 first or last subitem. 
+
+		 By default, all level 1 headlines in the current
+                 buffer are considered to be targets, but you can 
+
+
+* External access
+  
+  #+begin_quote 
+  Each day, I come across numeroous web articles, blog posts,
+  newsgroup posts, etc, that appear interesting. Often, I discover
+  them while working on another task. To avoid distraction, I
+  typically save their links for later review. Sometimes I drag the
+  links to my desktop. Sometimes I bookmark them my
+  browser. Sometimes I send them to myself via email. Sometimes, I
+  post them to my delicious account. It is time to admit that I need
+  a better process. [[http://jcardente.blogspot.com/2010/09/saving-weblinks-to-org-mode-from-safari.html][JCardente]]
+  #+end_quote
+
+  Org-protocol intercepts calls from emacsclient to trigger custom
+  actions without external dependencies. Only one protocol has to be
+  configured with your external applications or the operating system,
+  to trigger an arbitrary number of custom actions. Just register
+  your custom sub-protocol and handler with the variable
+  \org-protocol-protocol-alist\. 
+
+  The two most important applications one wants to integrate with org
+  are 
+  - Safari browser
+  - PDF reader (Aperçu or Adobe Reader)  
+
+  To use org-protocl, add the bookmark into the browser. Just remove
+  the line breaks and replace /sub-prococol/ with the real
+  sub-protocol to use. 
+  #+begin_src javascript
+    javascript:location.href='org-protocol://sub-protocol://'+
+      encodeURIComponent(location.href)+'/'+
+      encodeURIComponent(document.title)+'/'+
+      encodeURIComponent(window.getSelection())
+  #+end_src
+  
+  

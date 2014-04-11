@@ -1,0 +1,34 @@
+#+title: Drafting research papers with Emacs orgmode
+
+* Prerequisites
+  You should have 
+  - emacs 24.3 :: Make sure that you can call =emacs= in your terminal.
+		  Mac users should consider [[http://emacsformacosx.com][Emacs for OSX]].
+		  The =orgmode= package should be compiled with the appropriate version of emacs.
+		  Emacs must be compiled with graphical interface in order to 
+		  use =AucTeX= with =preview= to display LaTeX formulae in emacs buffers.
+  - LaTeX :: The latest =MacTeX= package should suffice. 
+	     Make sure that the following programs 
+    - =biber=
+    - =pdflatex=
+  - R :: Some section
+    - =ascii=
+    - =xtables=
+    - =ggplot2=
+
+* Installation
+  Type =./build_all.sh= in a terminal. 
+  
+* Examples
+  After successfully installed orgmode, you could open =draft.org= and
+  type =C-c C-e l o= to export to pdf file. The output should look
+  similarly to =sample_output.pdf=.
+  
+  For files containing a lot of code snippets, we might be better off
+  exporting them to =HTML=. Here are some examples.
+  - http://www.umiacs.umd.edu/~phi/R_prog_lang.html
+  - http://www.umiacs.umd.edu/~phi/riak.html
+  - http://www.umiacs.umd.edu/~phi/erlangen.html
+  - http://www.umiacs.umd.edu/~phi/programming_puzzles.html
+  
+
